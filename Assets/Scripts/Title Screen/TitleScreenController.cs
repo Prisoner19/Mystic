@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TitleScreenController : MonoBehaviour 
 {
@@ -9,8 +10,13 @@ public class TitleScreenController : MonoBehaviour
 	
 	}
 	
-	void Update () 
+	void Update ()
 	{
 	
+	}
+
+	public void StartGame()
+	{
+		SceneManager.LoadSceneAsync("Desert");
 	}
 }
