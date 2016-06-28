@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class TitleScreenController : MonoBehaviour 
 {
@@ -28,6 +27,5 @@ public class TitleScreenController : MonoBehaviour
 	{
 		button.SetActive (false);
 		blackScreen.GetComponent<FadeInandOut>().shouldFadeIn = true;
-		//SceneManager.LoadSceneAsync("Desert");
 	}
 }

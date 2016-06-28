@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FadeInandOut : MonoBehaviour 
 {
@@ -18,20 +19,12 @@ public class FadeInandOut : MonoBehaviour
 	public bool shouldFadeOut;
 	[HideInInspector]
 	public float changingAlpha;
+	private float alphaTextColor;
+	private float timerForText;
 
 	void Start () 
 	{
-		if(fadeIn == true)
-		{
-			gameObject.GetComponent<SpriteRenderer> ().enabled = false;
-		}
-		if(fadeOut == true)
-		{
-			gameObject.GetComponent<SpriteRenderer> ().enabled = true;
-		}
-		blackScreen= (Resources.Load<Sprite>("Sprites/BlackScreen"));
-		gameObject.GetComponent<SpriteRenderer>().sprite = blackScreen;
-		changingAlpha = 0;
+		SetBlackScreen();
 		//If need to add Text to Canvas
 		CreateText();
 	}
@@ -53,16 +46,28 @@ public class FadeInandOut : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer> ().enabled = true;
 		gameObject.GetComponent<Renderer> ().material.color = new Color (1, 1, 1, changingAlpha);
 		changingAlpha += 0.75f * Time.deltaTime;
+
 		// If need to show text
 		if(changingAlpha > 1f)
 		{
 			textInCanvas.text = "CHORIZON PA TODOS";
+			timerForText -= Time.deltaTime;
+			if(timerForText < 0)
+			{
+				textInCanvas.GetComponent<Text>().color = new Color (1, 1, 1, alphaTextColor);
+				alphaTextColor -= 0.45f * Time.deltaTime;
+				if(alphaTextColor < 0)
+				{
+					SceneManager.LoadSceneAsync("Graveyard");
+				}
+			}
 		}
 	}
 
 	private void FadeOut()
 	{
-		
+		gameObject.GetComponent<Renderer> ().material.color = new Color (1, 1, 1, changingAlpha);
+		changingAlpha -= 0.45f * Time.deltaTime;
 	}
 
 	private void CreateText()
@@ -75,5 +80,30 @@ public class FadeInandOut : MonoBehaviour
 		textInCanvas.transform.position = new Vector3 (250,250,0);
 		Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
 		textInCanvas.font = ArialFont;
+	}
+
+	private void SetBlackScreen()
+	{
+		if(fadeIn == true)
+		{
+			gameObject.GetComponent<SpriteRenderer> ().enabled = false;
+		}
+		if(fadeOut == true)
+		{
+			gameObject.GetComponent<SpriteRenderer> ().enabled = true;
+		}
+		blackScreen= (Resources.Load<Sprite>("Sprites/BlackScreen"));
+		gameObject.GetComponent<SpriteRenderer>().sprite = blackScreen;
+		changingAlpha = 0;
+		alphaTextColor = 1;
+		timerForText = 2;
+		if(shouldFadeIn)
+		{
+			changingAlpha = 0;
+		}
+		if (shouldFadeOut) 
+		{
+			changingAlpha = 1;
+		}
 	}
 }
