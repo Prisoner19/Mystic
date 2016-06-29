@@ -4,6 +4,7 @@ using System.Collections;
 public class GraveyardController : MonoBehaviour 
 {
 	private GameObject blackScreen;
+	public GameObject player;
 
 	void Awake()
 	{
@@ -18,6 +19,9 @@ public class GraveyardController : MonoBehaviour
 
 	void Update () 
 	{
-	
+		if(blackScreen.GetComponent<FadeInandOut>().changingAlpha < 0)
+		{
+			player.SetActive (true);
+		}
 	}
 }

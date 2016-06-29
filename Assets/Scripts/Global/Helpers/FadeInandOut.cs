@@ -26,7 +26,11 @@ public class FadeInandOut : MonoBehaviour
 	{
 		SetBlackScreen();
 		//If need to add Text to Canvas
-		CreateText();
+		if(Application.loadedLevelName == "Title Scene" /*|| more scenes with text*/)
+		{
+			CreateText();
+		}
+
 	}
 	
 	void Update () 
